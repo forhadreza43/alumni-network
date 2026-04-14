@@ -26,7 +26,7 @@ import {
   PlusIcon,
   EditIcon,
   ExternalLink,
-  ShelvingUnit
+  ShelvingUnit,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -49,9 +49,9 @@ import { redirect } from "next/navigation"
 
 export default async function ProfileSettingsPage() {
   const session = await getSession()
-    if (!session?.user) {
-      redirect("/unauthorized")
-    }
+  if (!session?.user) {
+    redirect("/unauthorized")
+  }
   const [userResult, profileResult, educationResult, workResult, skillsResult] =
     await Promise.all([
       getCurrentUserAction(),
@@ -68,7 +68,7 @@ export default async function ProfileSettingsPage() {
   const skills = skillsResult.ok ? skillsResult.data : []
 
   return (
-    <div className="w-full mx-auto max-w-7xl space-y-6 py-10">
+    <div className="mx-auto w-full max-w-7xl space-y-6 py-10">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Profile Settings</h1>
@@ -121,7 +121,7 @@ export default async function ProfileSettingsPage() {
               <ProfileSettingsSheet profile={profile}>
                 <Button>
                   <EditIcon className="size-4" />
-                  Edit
+                  Create | Update Profile
                 </Button>
               </ProfileSettingsSheet>
             </CardHeader>

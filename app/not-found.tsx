@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Error from "@/components/ui/error-page"
+import { House } from "lucide-react"
 import Link from "next/link"
 
 export default function NotFound() {
@@ -15,9 +16,16 @@ export default function NotFound() {
           The page you&apos;re looking for isn&apos;t found, we suggest you back
           to home.
         </p>
-        <Link href="/" className="w-full sm:w-auto">
+        {/* <Link href="/" className="w-full sm:w-auto">
           <Button size="lg" className="rounded-lg text-base">
             Back to home page
+          </Button>
+        </Link> */}
+
+        <Link href={"/"} className="flex items-center">
+          <Button size={"lg"} className={"text-base"}>
+            <House />
+            Home
           </Button>
         </Link>
       </div>

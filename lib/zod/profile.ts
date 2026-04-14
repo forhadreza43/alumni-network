@@ -30,6 +30,7 @@ export const alumniProfileSchema = z.object({
     .max(2000, "Bio is too long")
     .optional()
     .or(z.literal("")),
+  about: optionalLongTextSchema,
   linkedinUrl: optionalUrlSchema,
   facebookUrl: optionalUrlSchema,
   websiteUrl: optionalUrlSchema,

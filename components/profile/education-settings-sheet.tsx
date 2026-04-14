@@ -104,10 +104,16 @@ export function EducationSettingsSheet({
       message: msg,
     })
   )
-  const degreeErrors = state.fieldErrors?.degree?.map((msg) => ({
+  const programErrors = state.fieldErrors?.program?.map((msg) => ({
     message: msg,
   }))
-  const fieldOfStudyErrors = state.fieldErrors?.fieldOfStudy?.map((msg) => ({
+  const departmentErrors = state.fieldErrors?.department?.map((msg) => ({
+    message: msg,
+  }))
+  const studentIdErrors = state.fieldErrors?.studentId?.map((msg) => ({
+    message: msg,
+  }))
+  const batchErrors = state.fieldErrors?.batch?.map((msg) => ({
     message: msg,
   }))
   const startYearErrors = state.fieldErrors?.startYear?.map((msg) => ({
@@ -166,31 +172,57 @@ export function EducationSettingsSheet({
 
               <Field>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel htmlFor="degree">Program</FieldLabel>
+                  <FieldLabel htmlFor="program">Program</FieldLabel>
                   <Input
-                    id="degree"
-                    name="degree"
+                    id="program"
+                    name="program"
                     defaultValue={education?.program || ""}
                     placeholder="e.g. Bachelor of Science"
-                    aria-invalid={!!degreeErrors}
+                    aria-invalid={!!programErrors}
                   />
-                  <FieldError errors={degreeErrors} />
+                  <FieldError errors={programErrors} />
                 </div>
               </Field>
 
               <Field>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel htmlFor="fieldOfStudy">Department</FieldLabel>
+                  <FieldLabel htmlFor="department">Department</FieldLabel>
                   <Input
-                    id="fieldOfStudy"
-                    name="fieldOfStudy"
+                    id="department"
+                    name="department"
                     defaultValue={education?.department || ""}
                     placeholder="e.g. Computer Science"
-                    aria-invalid={!!fieldOfStudyErrors}
+                    aria-invalid={!!departmentErrors}
                   />
-                  <FieldError errors={fieldOfStudyErrors} />
+                  <FieldError errors={departmentErrors} />
                 </div>
               </Field>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field>
+                  <div className="flex flex-col gap-2">
+                    <FieldLabel htmlFor="studentId">Student ID</FieldLabel>
+                    <Input
+                      id="studentId"
+                      name="studentId"
+                      defaultValue={education?.studentId || ""}
+                      placeholder="e.g. 123456"
+                    />
+                  </div>
+                </Field>
+
+                <Field>
+                  <div className="flex flex-col gap-2">
+                    <FieldLabel htmlFor="batch">Batch</FieldLabel>
+                    <Input
+                      id="batch"
+                      name="batch"
+                      defaultValue={education?.batch || ""}
+                      placeholder="e.g. 2020"
+                    />
+                  </div>
+                </Field>
+              </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field>

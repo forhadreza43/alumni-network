@@ -2,6 +2,7 @@
 
 import { prisma } from "@/prisma/prisma"
 import { requireUser } from "../auth/guards"
+import { cacheLife, cacheTag } from "next/cache"
 
 export type AlumniCardData = {
   id: string
@@ -119,6 +120,9 @@ export async function getAlumniDetail(
 }
 
 export async function getAlumniForCard(): Promise<AlumniCardData[]> {
+  "use cache"
+  cacheTag("card")
+  cacheLife("default")
   const users = await prisma.user.findMany({
     where: {
       role: "USER",

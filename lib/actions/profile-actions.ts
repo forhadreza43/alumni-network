@@ -147,6 +147,7 @@ export async function upsertMyProfileAction(
           presentAddress: normalizeOptionalString(validated.presentAddress),
           permanentAddress: normalizeOptionalString(validated.permanentAddress),
           bio: normalizeOptionalString(validated.bio),
+          about: normalizeOptionalString(validated.about),
           linkedinUrl: normalizeOptionalString(validated.linkedinUrl),
           facebookUrl: normalizeOptionalString(validated.facebookUrl),
           websiteUrl: normalizeOptionalString(validated.websiteUrl),
@@ -158,6 +159,7 @@ export async function upsertMyProfileAction(
           presentAddress: normalizeOptionalString(validated.presentAddress),
           permanentAddress: normalizeOptionalString(validated.permanentAddress),
           bio: normalizeOptionalString(validated.bio),
+          about: normalizeOptionalString(validated.about),
           linkedinUrl: normalizeOptionalString(validated.linkedinUrl),
           facebookUrl: normalizeOptionalString(validated.facebookUrl),
           websiteUrl: normalizeOptionalString(validated.websiteUrl),
@@ -213,6 +215,7 @@ export async function getProfileByProfileIdAction(profileId: string): Promise<
     presentAddress: string | null
     permanentAddress: string | null
     bio: string | null
+    about: string | null
     linkedinUrl: string | null
     facebookUrl: string | null
     websiteUrl: string | null
@@ -235,6 +238,7 @@ export async function getProfileByProfileIdAction(profileId: string): Promise<
         presentAddress: true,
         permanentAddress: true,
         bio: true,
+        about: true,
         linkedinUrl: true,
         facebookUrl: true,
         websiteUrl: true,
@@ -284,6 +288,7 @@ export async function updateProfileByProfileIdAction(
         presentAddress: normalizeOptionalString(validated.presentAddress),
         permanentAddress: normalizeOptionalString(validated.permanentAddress),
         bio: normalizeOptionalString(validated.bio),
+        about: normalizeOptionalString(validated.about),
         linkedinUrl: normalizeOptionalString(validated.linkedinUrl),
         facebookUrl: normalizeOptionalString(validated.facebookUrl),
         websiteUrl: normalizeOptionalString(validated.websiteUrl),

@@ -1,25 +1,26 @@
-import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-const AlumniCardSkeleton = () => {
+export default function AlumniCardSkeleton() {
   return (
-    <Card className="w-full">
-      <CardContent className="flex flex-col items-center gap-4 pt-6">
-        {/* Avatar Skeleton */}
-        <Skeleton className="h-12 w-12 rounded-full" />
-
-        {/* Name + designation + company */}
-        <div className="flex w-full flex-col items-center space-y-2 text-center">
-          <Skeleton className="h-5 w-32" /> {/* Name */}
-          <Skeleton className="h-4 w-24" /> {/* Designation */}
-          <Skeleton className="h-4 w-28" /> {/* Company */}
+    <Skeleton className="w-full rounded-md bg-primary/10">
+      <div className="flex items-start gap-4 p-2">
+        {/* Avatar */}
+        <div className="shrink-0">
+          <Skeleton className="h-30 w-30 rounded-md" />
         </div>
 
-        {/* Button */}
-        <Skeleton className="h-7 w-24 rounded-full" />
-      </CardContent>
-    </Card>
+        {/* Divider */}
+        <Skeleton className="h-30 w-px" />
+
+        {/* Content */}
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-5 w-40" /> {/* Name */}
+          <Skeleton className="h-4 w-32" /> {/* Designation */}
+          <Skeleton className="h-4 w-36" /> {/* Company */}
+          {/* Button */}
+          <Skeleton className="mt-2 h-9 w-32 rounded-md" />
+        </div>
+      </div>
+    </Skeleton>
   )
 }
-
-export default AlumniCardSkeleton

@@ -28,7 +28,7 @@ export default async function ProfilePage() {
   if (!session?.user) {
     redirect("/unauthorized")
   }
-  
+
   const [userResult, alumniResult, educationResult, workResult, skillsResult] =
     await Promise.all([
       getCurrentUserAction(),
@@ -46,7 +46,7 @@ export default async function ProfilePage() {
   // console.log(skillsList)
 
   return (
-    <div className="w-full mx-auto max-w-7xl space-y-6 py-10">
+    <div className="mx-auto w-full max-w-7xl space-y-6 py-10">
       <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
         <Card className="h-fit">
           <CardContent className="pt-6">
@@ -79,8 +79,8 @@ export default async function ProfilePage() {
               )}
             </div>
 
+            
             <Separator className="my-6" />
-
             <div className="space-y-4">
               <h3 className="font-semibold">Contact Information</h3>
               <div className="space-y-3 text-sm">
@@ -135,23 +135,21 @@ export default async function ProfilePage() {
                 </div>
               </>
             )}
-            {
-              skillsList.length > 0 && (
-                <>
-                  <Separator className="my-6" />
-                  <div className="space-y-4">
-                    <h3 className="font-semibold">Skills</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {skillsList.map((skill) => (
-                        <Badge key={skill.id} variant="secondary">
-                          {skill.name}
-                        </Badge>
-                      ))}
-                    </div>
+            {skillsList.length > 0 && (
+              <>
+                <Separator className="my-6" />
+                <div className="space-y-4">
+                  <h3 className="font-semibold">Skills</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {skillsList.map((skill) => (
+                      <Badge key={skill.id} variant="secondary">
+                        {skill.name}
+                      </Badge>
+                    ))}
                   </div>
-                </>
-              )
-            }
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -326,6 +324,7 @@ export default async function ProfilePage() {
                             <div className="rounded-full bg-primary/10 p-2">
                               <BriefcaseIcon className="size-5 text-primary" />
                             </div>
+
                             <div className="flex-1 space-y-1">
                               <div className="flex items-center gap-2">
                                 <h4 className="font-semibold">

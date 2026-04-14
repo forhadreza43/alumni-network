@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {images: {
+const nextConfig = {
+    cacheComponents:true,
+    images: {
     remotePatterns: [
-      {
-        hostname: '*/',
+        {
+        protocol: "https",
+        hostname: 'res.cloudinary.com',
     
       },
     ],

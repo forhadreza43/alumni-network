@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import {
   BriefcaseIcon,
   CalendarDaysIcon,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { getSession } from "@/lib/auth/session"
 
 export default async function AlumniDetailPage({
   params,
@@ -23,6 +24,12 @@ export default async function AlumniDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const session = await getSession()
+  // console.log(session)
+
+  if (!session?.user) {
+    redirect("/unauthorized")
+  }
   const alumni = await getAlumniDetail(id)
   // console.log("Alumni:", alumni)
 
@@ -31,16 +38,37 @@ export default async function AlumniDetailPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6 py-10 px-4">
-      <div className="flex items-center gap-4">
+    <div className="mx-auto w-full max-w-7xl space-y-6 px-4 py-10">
+      <div className="flex items-center justify-between gap-4">
         <Button
           variant="ghost"
           size="sm"
           render={<Link href="/" className="flex items-center gap-2" />}
-          nativeButton={false}
         >
           ← Go Back
         </Button>
+        {session.user.id === id && (
+          <Button
+            variant="ghost"
+            size="sm"
+            render={
+              <Link
+                href="/profile/settings"
+                className="flex items-center gap-2"
+              />
+            }
+          >
+            Update Profile
+            <ExternalLink className="size-4" />
+          </Button>
+          // <Link
+          //   href="/profile/settings"
+          //   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+          // >
+          //   Update Profile
+          //   <ExternalLink className="size-4" />
+          // </Link>
+        )}
       </div>
       <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
         <Card className="h-fit">
@@ -78,7 +106,46 @@ export default async function AlumniDetailPage({
             </div>
 
             <Separator className="my-6" />
+            {alumni.alumniProfile?.about && (
+              <div className="space-y-4">
+                <h3 className="font-semibold">About</h3>
+                <p className="whitespace-pre-wrap text-muted-foreground">
+                  {alumni.alumniProfile?.about}
+                </p>
+                <Separator className="my-6" />
+              </div>
+            )}
 
+            <div className="space-y-4">
+              <h3 className="font-semibold">Personal Details</h3>
+              {alumni.alumniProfile?.dateOfBirth && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Date of Birth</p>
+                  <p>
+                    {new Date(
+                      alumni.alumniProfile?.dateOfBirth
+                    ).toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+              {alumni.alumniProfile?.presentAddress && (
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    Present Address
+                  </p>
+                  <p>{alumni.alumniProfile?.presentAddress}</p>
+                </div>
+              )}
+              {alumni.alumniProfile?.permanentAddress && (
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    Permanent Address
+                  </p>
+                  <p>{alumni.alumniProfile?.permanentAddress}</p>
+                </div>
+              )}
+            </div>
+            <Separator className="my-6" />
             <div className="space-y-4">
               <h3 className="font-semibold">Contact Information</h3>
               <div className="space-y-3 text-sm">
@@ -92,12 +159,6 @@ export default async function AlumniDetailPage({
                   <Mail className="size-4 text-muted-foreground" />
                   <span>{alumni.email}</span>
                 </div>
-                {alumni.alumniProfile?.presentAddress && (
-                  <div className="flex items-center gap-3">
-                    <MapPinIcon className="size-4 text-muted-foreground" />
-                    <span>{alumni.alumniProfile?.presentAddress}</span>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -173,46 +234,72 @@ export default async function AlumniDetailPage({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {alumni.workExperiences.map((work) => (
+                {alumni.workExperiences.map((work, index) => (
                   <div key={work.id} className="space-y-2">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="font-semibold">{work?.designation}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {work?.companyName}
-                        </p>
+                    <div className="flex items-start gap-4">
+                      <div className="rounded-full bg-primary/10 p-2">
+                        <BriefcaseIcon className="size-5 text-primary" />
                       </div>
-                      {work?.isCurrent && (
-                        <Badge variant="secondary">Current</Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CalendarDaysIcon className="size-4" />
-                      <span>
-                        {new Date(work?.startDate).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                        })}
-                        {" - "}
-                        {work.endDate
-                          ? new Date(work?.endDate).toLocaleDateString(
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold">{work?.companyName}</h4>
+                          {work.isCurrent && (
+                            <Badge variant="default">Current</Badge>
+                          )}
+                        </div>
+                        <div className="flex gap-2 text-sm text-muted-foreground">
+                          {work.designation && (
+                            <p className="text-sm text-muted-foreground">
+                              {work.designation}
+                            </p>
+                          )}
+                          {work.employmentType && (
+                            <span>• {work.employmentType}</span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foreground">
+                            {work?.companyName},
+                          </p>
+                          {work?.location && (
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              {/* <MapPinIcon className="size-4" /> */}
+                              <span>{work?.location}</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <CalendarDaysIcon className="size-4" />
+                          <span>
+                            {new Date(work?.startDate).toLocaleDateString(
                               "en-US",
                               {
                                 year: "numeric",
                                 month: "short",
                               }
-                            )
-                          : "Present"}
-                      </span>
-                    </div>
-                    {work?.location && (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MapPinIcon className="size-4" />
-                        <span>{work?.location}</span>
+                            )}
+                            {" - "}
+                            {work.endDate
+                              ? new Date(work?.endDate).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                  }
+                                )
+                              : "Present"}
+                          </span>
+                        </div>
+
+                        {work?.description && (
+                          <p className="text-sm text-muted-foreground">
+                            {work?.description}
+                          </p>
+                        )}
                       </div>
-                    )}
-                    {work?.description && (
-                      <p className="text-sm">{work?.description}</p>
+                    </div>
+                    {index < alumni.workExperiences.length - 1 && (
+                      <Separator className="mt-6" />
                     )}
                   </div>
                 ))}
@@ -229,35 +316,80 @@ export default async function AlumniDetailPage({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {alumni.educationHistories.map((edu) => (
-                  <div key={edu.id} className="space-y-2">
-                    <div>
-                      <h4 className="font-semibold">{edu?.institutionName}</h4>
-                      {edu?.program && (
-                        <p className="text-sm text-muted-foreground">
-                          {edu?.program}
-                          {edu?.department && ` - ${edu?.department}`}
-                        </p>
-                      )}
+                {alumni.educationHistories.map((edu, index) => (
+                  <div key={edu.id}>
+                    <div className="flex items-start gap-4">
+                      <div className="rounded-full bg-primary/10 p-2">
+                        <GraduationCapIcon className="size-5 text-primary" />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <h4 className="font-semibold">{edu.institutionName}</h4>
+                        {edu?.program && (
+                          <p className="text-sm text-muted-foreground">
+                            {edu?.program}{" "}
+                            {edu?.program && `in ${edu.department}`}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                          {edu.startYear && <span>{edu.startYear}</span>}
+                          {edu.endYear && <span> - {edu.endYear}</span>}
+                          {edu.gradeOrResult && (
+                            <Badge variant="secondary">
+                              Grade: {edu.gradeOrResult}
+                            </Badge>
+                          )}
+                        </div>
+                        <div>
+                          {edu.studentId && (
+                            <p className="text-sm text-muted-foreground">
+                              Student ID: {edu.studentId}
+                            </p>
+                          )}
+                          {edu.batch && (
+                            <p className="text-sm text-muted-foreground">
+                              Batch: {edu.batch}
+                            </p>
+                          )}
+                        </div>
+                        {edu.description && (
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            {edu.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CalendarDaysIcon className="size-4" />
-                      <span>
-                        {edu?.startYear} {edu?.endYear && `- ${edu?.endYear}`}
-                      </span>
-                    </div>
-                    {edu?.batch && (
-                      <p className="text-sm text-muted-foreground">
-                        Batch: {edu?.batch}
-                      </p>
-                    )}
-                    {edu?.gradeOrResult && (
-                      <p className="text-sm">Grade: {edu?.gradeOrResult}</p>
-                    )}
-                    {edu?.description && (
-                      <p className="text-sm">{edu?.description}</p>
+                    {index < alumni.educationHistories.length - 1 && (
+                      <Separator className="mt-6" />
                     )}
                   </div>
+                  // <div key={edu.id} >
+                  //   <div>
+                  //     <h4 className="font-semibold">{edu?.institutionName}</h4>
+                  //     {edu?.program && (
+                  //       <p className="text-sm text-muted-foreground">
+                  //         {edu?.program}
+                  //         {edu?.department && ` - ${edu?.department}`}
+                  //       </p>
+                  //     )}
+                  //   </div>
+                  //   <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  //     <CalendarDaysIcon className="size-4" />
+                  //     <span>
+                  //       {edu?.startYear} {edu?.endYear && `- ${edu?.endYear}`}
+                  //     </span>
+                  //   </div>
+                  //   {edu?.batch && (
+                  //     <p className="text-sm text-muted-foreground">
+                  //       Batch: {edu?.batch}
+                  //     </p>
+                  //   )}
+                  //   {edu?.gradeOrResult && (
+                  //     <p className="text-sm">Grade: {edu?.gradeOrResult}</p>
+                  //   )}
+                  //   {edu?.description && (
+                  //     <p className="text-sm">{edu?.description}</p>
+                  //   )}
+                  // </div>
                 ))}
               </CardContent>
             </Card>
