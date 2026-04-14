@@ -18,6 +18,7 @@ import { signOut } from "@/lib/auth-client"
 import { useSession } from "@/lib/auth-client"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Button } from "./ui/button"
 
 export const Profile = () => {
   const { data: session } = useSession()
@@ -76,9 +77,15 @@ export const Profile = () => {
         )}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
-          <LogOutIcon />
-          Sign Out
+        <DropdownMenuItem className={"p-0"}>
+          <Button
+            className={"w-full py-2 rounded-xl"}
+            variant="destructive"
+            onClick={handleSignOut}
+          >
+            <LogOutIcon />
+            Sign Out
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

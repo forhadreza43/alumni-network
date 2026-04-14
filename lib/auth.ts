@@ -7,11 +7,14 @@ import { render } from "@react-email/components"
 import PasswordResetEmail from "@/components/reset-email"
 import { resend } from "./resend"
 
-const resendFrom = process.env.RESEND_FROM
-if (!resendFrom) {
-  throw new Error(
-    'Missing RESEND_FROM environment variable. Set it to a verified Resend sender email, e.g. "Acme <no-reply@yourdomain.com>"'
-  )
+function parseTrustedOrigins(): string[] | undefined {
+  const raw = process.env.BETTER_AUTH_TRUSTED_ORIGINS
+  if (!raw) return undefined
+  const origins = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+  return origins.length ? origins : undefined
 }
 
 export const auth = betterAuth({
@@ -24,6 +27,12 @@ export const auth = betterAuth({
     revokeSessionsOnPasswordReset: true,
 
     sendResetPassword: async ({ user, url, token }, request) => {
+      const resendFrom = process.env.RESEND_FROM
+      if (!resendFrom) {
+        throw new Error(
+          'Missing RESEND_FROM environment variable. Set it to a verified Resend sender email, e.g. "Acme <no-reply@yourdomain.com>"'
+        )
+      }
       const html = await render(
         PasswordResetEmail({ resetUrl: url, expiresIn: "15 minutes" })
       )
@@ -68,5 +77,5 @@ export const auth = betterAuth({
     },
   },
   plugins: [username(), nextCookies()],
-  //   trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: parseTrustedOrigins(),
 })

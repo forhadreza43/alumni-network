@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function AlumniCardSkeleton() {
   return (
-    <Skeleton className="w-full rounded-md bg-primary/10">
+    <Skeleton className="w-full rounded-md bg-gray-200">
       <div className="flex items-start gap-4 p-2">
         {/* Avatar */}
         <div className="shrink-0">
@@ -14,11 +14,11 @@ export default function AlumniCardSkeleton() {
 
         {/* Content */}
         <div className="flex-1 space-y-2">
-          <Skeleton className="h-5 w-40" /> {/* Name */}
-          <Skeleton className="h-4 w-32" /> {/* Designation */}
-          <Skeleton className="h-4 w-36" /> {/* Company */}
+          <Skeleton className="h-5 w-32" /> {/* Name */}
+          <Skeleton className="h-4 w-22" /> {/* Designation */}
+          <Skeleton className="h-4 w-26" /> {/* Company */}
           {/* Button */}
-          <Skeleton className="mt-2 h-9 w-32 rounded-md" />
+          <Skeleton className="mt-2 h-7 w-22 rounded-md" />
         </div>
       </div>
     </Skeleton>

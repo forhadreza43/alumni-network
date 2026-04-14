@@ -16,7 +16,7 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
   const session = await getSession()
   return (
     <div className="w-full rounded-md bg-primary/10">
-      <div className="flex items-start gap-4 p-2">
+      <div className="flex items-start gap-3 p-2">
         <div className="shrink-0">
           {alumni.image ? (
             <div className="relative h-30 w-30">
@@ -26,7 +26,6 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
                 fill
                 className="rounded-md object-cover"
                 sizes="120px"
-                quality={90}
                 priority
                 placeholder={blurDataURL ? "blur" : "empty"}
                 blurDataURL={blurDataURL ?? undefined}
@@ -48,7 +47,12 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
             </div>
           )}
         </div>
-        <div className="h-30 w-px border-r border-primary/20 bg-primary/20" />
+        
+        
+        <div className="h-30 w-px border-r border-primary/20" />
+        
+        
+        
         <div className="flex-1">
           <div className="space-y-1">
             <h3 className="text-md font-semibold">{alumni.name}</h3>
@@ -73,9 +77,9 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
             </Button>
           ) : (
             <Button
-              className={"mt-3 rounded-md"}
-              size="sm"
-              render={<Link href={`/login`} />}
+              className={"mt-3 rounded-md py-2"}
+              size="xs"
+              render={<Link className="py-2" href={`/login`} />}
             >
               Sign in to view Details
             </Button>
