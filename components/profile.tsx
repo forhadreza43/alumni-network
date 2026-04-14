@@ -52,7 +52,10 @@ export const Profile = () => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/profile" className="item-center flex w-full gap-3">
+          <Link
+            href={`/alumni/${user?.id}`}
+            className="item-center flex w-full gap-3"
+          >
             <UserIcon />
             Profile
           </Link>
@@ -79,7 +82,7 @@ export const Profile = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem className={"p-0"}>
           <Button
-            className={"w-full py-2 rounded-xl"}
+            className={"w-full rounded-xl py-2"}
             variant="destructive"
             onClick={handleSignOut}
           >
