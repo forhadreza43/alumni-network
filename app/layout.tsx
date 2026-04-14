@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google"
+import { Suspense } from "react"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -30,17 +31,19 @@ export default function RootLayout({
       )}
     >
       <body>
-        <TooltipProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster position="top-center" richColors />
-          </ThemeProvider>
-        </TooltipProvider>
+        <Suspense fallback={null}>
+          <TooltipProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster position="top-center" richColors />
+            </ThemeProvider>
+          </TooltipProvider>
+        </Suspense>
       </body>
     </html>
   )

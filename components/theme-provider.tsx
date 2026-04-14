@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Suspense } from "react"
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 
 function ThemeProvider({
@@ -15,7 +16,9 @@ function ThemeProvider({
       disableTransitionOnChange
       {...props}
     >
-      <ThemeHotkey />
+      <Suspense fallback={null}>
+        <ThemeHotkey />
+      </Suspense>
       {children}
     </NextThemesProvider>
   )
