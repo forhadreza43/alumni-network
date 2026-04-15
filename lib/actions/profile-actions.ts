@@ -17,7 +17,7 @@ import {
   requireWorkOwnerOrAdmin,
 } from "@/lib/auth/guards"
 import { ZodError } from "zod"
-import { updateTag } from "next/cache"
+import { revalidateTag, updateTag } from "next/cache"
 
 function formDataToObject(formData: FormData): Record<string, unknown> {
   const obj: Record<string, unknown> = {}
@@ -186,6 +186,7 @@ export async function upsertMyProfileAction(
     })
 
     updateTag(`alumni-${currentUser.id}`)
+    revalidateTag("alumni-list", "max")
 
     return {
       ok: true,
@@ -771,168 +772,156 @@ export async function getMyWorkExperienceListAction(): Promise<
   }
 }
 
-export async function getMySkillsAction(): Promise<
-  ActionResult<
-    Array<{
-      id: string
-      name: string
-      slug: string | null
-      description: string | null
-      category: string | null
-      isActive: boolean
-    }>
-  >
-> {
-  try {
-    const currentUser = await getCurrentUser()
-
-    const skills = await prisma.skill.findMany({
-      where: { userId: currentUser.id },
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        description: true,
-        category: true,
-        isActive: true,
-      },
-    })
-
-    return {
-      ok: true,
-      message: "Skills fetched successfully",
-      data: skills,
-    }
-  } catch (error) {
-    console.error("getMySkillsAction error:", error)
-    return {
-      ok: false,
-      message: "Failed to fetch skills",
-    }
-  }
-}
-
-export async function getAllSkillsAction(): Promise<
-  ActionResult<
-    Array<{
-      id: string
-      name: string
-      slug: string | null
-      description: string | null
-      category: string | null
-      isActive: boolean
-    }>
-  >
-> {
-  try {
-    const skills = await prisma.skill.findMany({
-      orderBy: { name: "asc" },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        description: true,
-        category: true,
-        isActive: true,
-      },
-    })
-
-    return {
-      ok: true,
-      message: "All skills fetched successfully",
-      data: skills,
-    }
-  } catch (error) {
-    console.error("getAllSkillsAction error:", error)
-    return {
-      ok: false,
-      message: "Failed to fetch skills",
-    }
-  }
-}
-
-export async function addUserSkillAction(input: unknown): Promise<
+export async function getMySettingsBundleAction(): Promise<
   ActionResult<{
-    id: string
-    name: string
-    slug: string | null
-    description: string | null
-    category: string | null
+    user: CurrentSessionUser
+    profile: Awaited<ReturnType<typeof getCurrentAlumniProfileOrNull>>
+    educationList: Array<{
+      id: string
+      institutionName: string
+      program: string | null
+      department: string | null
+      startYear: number
+      endYear: number | null
+      studentId: string | null
+      batch: string | null
+      gradeOrResult: string | null
+      description: string | null
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+    }>
+    workList: Array<{
+      id: string
+      companyName: string
+      designation: string | null
+      employmentType: string | null
+      location: string | null
+      startDate: Date
+      endDate: Date | null
+      isCurrent: boolean
+      description: string | null
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+    }>
+    skills: Array<{
+      id: string
+      name: string
+      slug: string | null
+      description: string | null
+      category: string | null
+      isActive: boolean
+    }>
   }>
 > {
   try {
     const currentUser = await getCurrentUser()
-    const validated = assignUserSkillSchema.parse(input)
 
-    const existing = await prisma.skill.findFirst({
-      where: {
-        userId: currentUser.id,
-        id: validated.skillId,
-      },
-    })
-
-    if (existing) {
-      return {
-        ok: false,
-        message: "Skill already added",
-      }
-    }
-
-    const skill = await prisma.skill.findUnique({
-      where: { id: validated.skillId },
+    const data = await prisma.user.findUnique({
+      where: { id: currentUser.id },
       select: {
         id: true,
         name: true,
-        slug: true,
-        description: true,
-        category: true,
+        email: true,
+        image: true,
+        role: true,
+        status: true,
+        alumniProfile: {
+          select: {
+            id: true,
+            userId: true,
+            phone: true,
+            dateOfBirth: true,
+            presentAddress: true,
+            permanentAddress: true,
+            bio: true,
+            about: true,
+            linkedinUrl: true,
+            facebookUrl: true,
+            websiteUrl: true,
+            profileCompleted: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        educationHistories: {
+          where: { userId: currentUser.id },
+          orderBy: [{ sortOrder: "asc" }, { startYear: "desc" }],
+          select: {
+            id: true,
+            institutionName: true,
+            program: true,
+            department: true,
+            startYear: true,
+            endYear: true,
+            studentId: true,
+            batch: true,
+            gradeOrResult: true,
+            description: true,
+            sortOrder: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        workExperiences: {
+          where: { userId: currentUser.id },
+          orderBy: [{ sortOrder: "asc" }, { startDate: "desc" }],
+          select: {
+            id: true,
+            companyName: true,
+            designation: true,
+            employmentType: true,
+            location: true,
+            startDate: true,
+            endDate: true,
+            isCurrent: true,
+            description: true,
+            sortOrder: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        skills: {
+          where: { userId: currentUser.id },
+          orderBy: { createdAt: "desc" },
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+            category: true,
+            isActive: true,
+          },
+        },
       },
     })
 
-    if (!skill) {
-      return {
-        ok: false,
-        message: "Skill not found",
-      }
+    if (!data) {
+      return { ok: false, message: "User not found" }
     }
-
-    const created = await prisma.skill.create({
-      data: {
-        userId: currentUser.id,
-        name: skill.name,
-        slug: skill.slug,
-        description: skill.description,
-        category: skill.category,
-      },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        description: true,
-        category: true,
-      },
-    })
 
     return {
       ok: true,
-      message: "Skill added successfully",
-      data: created,
+      message: "Settings bundle fetched successfully",
+      data: {
+        user: {
+          id: data.id,
+          name: data.name ?? null,
+          email: data.email ?? null,
+          image: data.image ?? null,
+          role: data.role ?? "USER",
+          status: (data.status as string) ?? "ACTIVE",
+        },
+        profile: data.alumniProfile ?? null,
+        educationList: data.educationHistories,
+        workList: data.workExperiences,
+        skills: data.skills,
+      },
     }
   } catch (error) {
-    if (error instanceof ZodError) {
-      return {
-        ok: false,
-        message: "Validation failed",
-        fieldErrors: formatZodError(error),
-      }
-    }
-
-    console.error("addUserSkillAction error:", error)
-    return {
-      ok: false,
-      message: "Failed to add skill",
-    }
+    console.error("getMySettingsBundleAction error:", error)
+    return { ok: false, message: "Failed to fetch settings bundle" }
   }
 }
 
@@ -959,7 +948,7 @@ export async function removeUserSkillAction(
     await prisma.skill.delete({
       where: { id: skillId },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Skill removed successfully",
@@ -1045,7 +1034,7 @@ export async function createAndAddUserSkillAction(input: unknown): Promise<
         },
       })
     }
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Skill added successfully",

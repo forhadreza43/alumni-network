@@ -58,16 +58,16 @@ const page = () => {
 
   return (
     <div className="px-4 lg:px-6">
-      <Form action={formAction}>
+      <div className="flex flex-col items-center gap-1 text-center">
+        <h1 className="text-2xl font-bold">Generate Security Code</h1>
+        <p className="text-sm text-balance text-muted-foreground">
+          Enter the ticket number below to generate a security code and send it
+          to the registered email or phone number of the alumni.
+        </p>
+      </div>
+      <Form action={formAction} className="mx-auto max-w-md mt-10">
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h1 className="text-2xl font-bold">Generate Security Code</h1>
-            <p className="text-sm text-balance text-muted-foreground">
-              Enter the ticket number below to generate a security code and send
-              it to the registered email or phone number of the alumni.
-            </p>
-          </div>
-          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
+          <div className="flex flex-col items-center space-y-6">
             <Field>
               <FieldLabel htmlFor="ticket-number">Ticket Number</FieldLabel>
               <Input

@@ -36,6 +36,33 @@ export default async function AlumniDetailPage({
   if (!alumni) {
     notFound()
   }
+  const isOwner = session.user.id === id
+
+  if (isOwner && !alumni.alumniProfile) {
+    return (
+      <div className="mx-auto w-full max-w-3xl space-y-6 px-4 py-10">
+        <Card>
+          <CardHeader>
+            <CardTitle>Complete your profile</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              You haven’t created your alumni profile yet. Add your basic
+              information to make your profile visible.
+            </p>
+            <Button
+              render={
+                <Link href="/alumni/settings" className="flex items-center gap-2" />
+              }
+            >
+              Go to Profile Settings
+              <ExternalLink className="size-4" />
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 px-4 py-10">
@@ -47,7 +74,7 @@ export default async function AlumniDetailPage({
         >
           ← Go Back
         </Button>
-        {session.user.id === id && (
+        {isOwner && (
           <Button
             variant="ghost"
             size="sm"

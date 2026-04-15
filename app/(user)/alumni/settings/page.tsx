@@ -1,9 +1,5 @@
 import {
-  getCurrentUserAction,
-  getCurrentAlumniProfileAction,
-  getMyEducationListAction,
-  getMyWorkExperienceListAction,
-  getMySkillsAction,
+  getMySettingsBundleAction,
 } from "@/lib/actions/profile-actions"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -52,20 +48,13 @@ export default async function ProfileSettingsPage() {
   if (!session?.user) {
     redirect("/unauthorized")
   }
-  const [userResult, profileResult, educationResult, workResult, skillsResult] =
-    await Promise.all([
-      getCurrentUserAction(),
-      getCurrentAlumniProfileAction(),
-      getMyEducationListAction(),
-      getMyWorkExperienceListAction(),
-      getMySkillsAction(),
-    ])
+  const bundleResult = await getMySettingsBundleAction()
 
-  const user = userResult.ok ? userResult.data : null
-  const profile = profileResult.ok ? profileResult.data : null
-  const educationList = educationResult.ok ? educationResult.data : []
-  const workList = workResult.ok ? workResult.data : []
-  const skills = skillsResult.ok ? skillsResult.data : []
+  const user = bundleResult.ok ? bundleResult.data.user : null
+  const profile = bundleResult.ok ? bundleResult.data.profile : null
+  const educationList = bundleResult.ok ? bundleResult.data.educationList : []
+  const workList = bundleResult.ok ? bundleResult.data.workList : []
+  const skills = bundleResult.ok ? bundleResult.data.skills : []
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 py-10">

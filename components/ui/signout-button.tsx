@@ -1,4 +1,4 @@
-import { signOut } from "@/actions/auth.action"
+import { signOut } from "@/lib/actions/auth.action"
 import Form from "next/form"
 import { SubmitButton } from "./submit-button"
 

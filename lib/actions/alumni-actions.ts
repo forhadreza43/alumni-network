@@ -115,7 +115,7 @@ async function getAlumniDetailCached(
     },
   })
 
-  if (!user || !user.alumniProfile) {
+  if (!user) {
     return null
   }
 
@@ -126,7 +126,7 @@ async function getAlumniDetailCached(
     role: user.role,
     status: user.status,
     image: user.image,
-    alumniProfile: user.alumniProfile,
+    alumniProfile: user.alumniProfile ?? null,
     educationHistories: user.educationHistories,
     skills: user.skills,
     workExperiences: user.workExperiences,

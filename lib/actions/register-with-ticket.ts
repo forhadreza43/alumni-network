@@ -308,8 +308,6 @@ export async function registerWithTicketService(formData: FormData) {
       },
     })
 
-    revalidateTag("alumni-list", "max")
-
     // Return success response instead of redirecting
     // The client will handle the redirect via router
     return {

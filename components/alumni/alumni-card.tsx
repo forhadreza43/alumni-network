@@ -77,9 +77,9 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
             </Button>
           ) : (
             <Button
-              className={"mt-3 rounded-md py-2"}
-              size="xs"
-              render={<Link className="py-2" href={`/login`} />}
+              className={"mt-3 rounded-md"}
+              size="sm"
+              render={<Link className="" href={`/login`} />}
             >
               Sign in to view Details
             </Button>

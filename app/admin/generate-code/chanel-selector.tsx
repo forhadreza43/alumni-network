@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Field } from "@/components/ui/field"
+import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -22,7 +22,7 @@ const items = [
   {
     label: "SMS",
     value: "sms",
-    placeholder: "Enter phone e.g. +8801XXXXXXXXX",
+    placeholder: "Enter phone e.g. 01XXXXXXXXX",
     type: "tel",
   },
 ]
@@ -31,7 +31,7 @@ export function ChanelSelector() {
   const [channel, setChannel] = useState(items[0])
 
   return (
-    <>
+    <div className="space-y-6">
       <Select
         name="channel"
         defaultValue={channel.value}
@@ -54,6 +54,7 @@ export function ChanelSelector() {
         </SelectContent>
       </Select>
       <Field>
+        <FieldLabel htmlFor="recipient">Receiver Email</FieldLabel>
         <Input
           id="recipient"
           type={channel.type}
@@ -62,6 +63,6 @@ export function ChanelSelector() {
           required
         />
       </Field>
-    </>
+    </div>
   )
 }
