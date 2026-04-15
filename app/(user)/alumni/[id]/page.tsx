@@ -53,7 +53,7 @@ export default async function AlumniDetailPage({
             size="sm"
             render={
               <Link
-                href="/profile/settings"
+                href="/alumni/settings"
                 className="flex items-center gap-2"
               />
             }
@@ -62,7 +62,7 @@ export default async function AlumniDetailPage({
             <ExternalLink className="size-4" />
           </Button>
           // <Link
-          //   href="/profile/settings"
+          //   href="/alumni/settings"
           //   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           // >
           //   Update Profile

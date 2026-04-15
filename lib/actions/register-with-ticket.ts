@@ -3,8 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/prisma/prisma"
 import { registerSchema } from "@/lib/zod/auth"
 import { ZodError } from "zod"
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
+import { revalidateTag } from "next/cache"
 
 const SECRET = process.env.SECRET_SALT || "default_secret"
 
@@ -308,6 +307,8 @@ export async function registerWithTicketService(formData: FormData) {
         status: "USED",
       },
     })
+
+    revalidateTag("alumni-list", "max")
 
     // Return success response instead of redirecting
     // The client will handle the redirect via router

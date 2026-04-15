@@ -3,6 +3,7 @@
 import { prisma } from "@/prisma/prisma"
 import { getCurrentUser } from "@/lib/auth/session"
 import { ZodError } from "zod"
+import { updateTag } from "next/cache"
 
 type ActionSuccess<T> = {
   ok: true
@@ -118,6 +119,8 @@ export async function updateUserImageAction(
       entityId: currentUser.id,
     })
 
+    updateTag(`alumni-${currentUser.id}`)
+
     return {
       ok: true,
       message: "Image updated successfully",
@@ -173,6 +176,8 @@ export async function updateUserNameAction(
       },
     })
 
+    updateTag(`alumni-${currentUser.id}`)
+
     return {
       ok: true,
       message: "Name updated successfully",
@@ -186,3 +191,5 @@ export async function updateUserNameAction(
     }
   }
 }
+
+

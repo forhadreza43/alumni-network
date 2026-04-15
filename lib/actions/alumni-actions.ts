@@ -2,7 +2,7 @@
 
 import { prisma } from "@/prisma/prisma"
 import { requireUser } from "../auth/guards"
-import { cacheLife, cacheTag } from "next/cache"
+import { cacheTag } from "next/cache"
 
 export type AlumniCardData = {
   id: string
@@ -65,6 +65,8 @@ export type AlumniDetailData = {
 export async function getAlumniDetail(
   id: string
 ): Promise<AlumniDetailData | null> {
+  "use cache"
+  cacheTag(`alumni-${id}`)
   await requireUser()
   const user = await prisma.user.findUnique({
     where: {
@@ -121,8 +123,7 @@ export async function getAlumniDetail(
 
 export async function getAlumniForCard(): Promise<AlumniCardData[]> {
   "use cache"
-  cacheTag("card")
-  cacheLife("default")
+  cacheTag("alumni-list")
   const users = await prisma.user.findMany({
     where: {
       role: "USER",
@@ -149,6 +150,8 @@ export async function getAlumniForCard(): Promise<AlumniCardData[]> {
     },
     orderBy: { createdAt: "desc" },
   })
+
+  users.forEach((u) => cacheTag(`alumni-${u.id}`))
 
   return users.map((user) => ({
     id: user.id,

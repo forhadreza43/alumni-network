@@ -79,7 +79,6 @@ export default async function ProfilePage() {
               )}
             </div>
 
-            
             <Separator className="my-6" />
             <div className="space-y-4">
               <h3 className="font-semibold">Contact Information</h3>
@@ -167,7 +166,7 @@ export default async function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <CardTitle>About Me</CardTitle>
                     <Link
-                      href="/profile/settings"
+                      href="/alumni/settings"
                       className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
                     >
                       Update Profile

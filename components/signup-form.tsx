@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Info } from "lucide-react"
 import { Tooltip } from "@/components/ToolTip"
 import { SubmitButton } from "./ui/submit-button"
-import { registerWithTicketService } from "@/lib/services/register-with-ticket"
+import { registerWithTicketService } from "@/lib/actions/register-with-ticket"
 import { toast } from "sonner"
 
 type RegisterFormState = {

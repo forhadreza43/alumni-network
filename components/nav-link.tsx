@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { menu, MenuItem } from "./navbar"
+import { menu } from "./navbar.constants"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 

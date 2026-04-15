@@ -17,6 +17,7 @@ import {
   requireWorkOwnerOrAdmin,
 } from "@/lib/auth/guards"
 import { ZodError } from "zod"
+import { updateTag } from "next/cache"
 
 function formDataToObject(formData: FormData): Record<string, unknown> {
   const obj: Record<string, unknown> = {}
@@ -183,6 +184,8 @@ export async function upsertMyProfileAction(
         userId: currentUser.id,
       },
     })
+
+    updateTag(`alumni-${currentUser.id}`)
 
     return {
       ok: true,
@@ -371,7 +374,7 @@ export async function createEducationAction(
         userId: currentUser.id,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Education added successfully",
@@ -434,7 +437,7 @@ export async function updateEducationAction(
         userId: updated.userId,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Education updated successfully",
@@ -480,7 +483,7 @@ export async function deleteEducationAction(
         educationId: deleted.id,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Education deleted successfully",
@@ -531,7 +534,7 @@ export async function createWorkExperienceAction(
         userId: currentUser.id,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Work experience added successfully",
@@ -593,7 +596,7 @@ export async function updateWorkExperienceAction(
         userId: updated.userId,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Work experience updated successfully",
@@ -639,7 +642,7 @@ export async function deleteWorkExperienceAction(
         workId: deleted.id,
       },
     })
-
+    updateTag(`alumni-${currentUser.id}`)
     return {
       ok: true,
       message: "Work experience deleted successfully",

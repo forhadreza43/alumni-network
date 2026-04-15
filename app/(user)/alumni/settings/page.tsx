@@ -103,10 +103,6 @@ export default async function ProfileSettingsPage() {
             <ShelvingUnit className="size-4" />
             <span className="sr-only sm:inline">Skills</span>
           </TabsTrigger>
-          <TabsTrigger value="social" className="gap-2">
-            <PhoneIcon className="size-4" />
-            <span className="sr-only sm:inline">Social</span>
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="basic" className="mt-6 space-y-6">
@@ -121,7 +117,7 @@ export default async function ProfileSettingsPage() {
               <ProfileSettingsSheet profile={profile}>
                 <Button>
                   <EditIcon className="size-4" />
-                  Create | Update Profile
+                  Create | Update
                 </Button>
               </ProfileSettingsSheet>
             </CardHeader>
@@ -481,94 +477,6 @@ export default async function ProfileSettingsPage() {
             </CardHeader>
             <CardContent>
               <SkillSelectorWrapper initialSkills={skills} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="social" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Social Links</CardTitle>
-              <CardDescription>
-                Your online presence and social profiles
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {profile?.linkedinUrl && (
-                  <div className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="flex items-center gap-3">
-                      <span className="font-medium">LinkedIn</span>
-                    </div>
-                    <a
-                      href={profile.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {profile.linkedinUrl}
-                    </a>
-                  </div>
-                )}
-                {profile?.facebookUrl && (
-                  <div className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="flex items-center gap-3">
-                      <span className="font-medium">Facebook</span>
-                    </div>
-                    <a
-                      href={profile.facebookUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {profile.facebookUrl}
-                    </a>
-                  </div>
-                )}
-                {profile?.websiteUrl && (
-                  <div className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="flex items-center gap-3">
-                      <span className="font-medium">Website</span>
-                    </div>
-                    <a
-                      href={profile.websiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {profile.websiteUrl}
-                    </a>
-                  </div>
-                )}
-                {!profile?.linkedinUrl &&
-                  !profile?.facebookUrl &&
-                  !profile?.websiteUrl && (
-                    <p className="text-center text-muted-foreground">
-                      No social links added yet. Edit your profile to add social
-                      links.
-                    </p>
-                  )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>Privacy Settings</CardTitle>
-              <CardDescription>
-                Control who can see your profile
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div>
-                  <p className="font-medium">Public Profile</p>
-                  <p className="text-sm text-muted-foreground">
-                    Allow others to view your profile information
-                  </p>
-                </div>
-                <Badge variant="secondary">Private</Badge>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>

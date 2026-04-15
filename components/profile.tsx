@@ -24,6 +24,10 @@ export const Profile = () => {
   const { data: session } = useSession()
   const router = useRouter()
 
+  if (!session || !session?.user) {
+    return null
+  }
+
   const user = session?.user
   const handleSignOut = async () => {
     await signOut()
@@ -62,7 +66,7 @@ export const Profile = () => {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Link
-            href="/profile/settings"
+            href="/alumni/settings"
             className="item-center flex w-full gap-3"
           >
             <SettingsIcon />
