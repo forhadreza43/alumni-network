@@ -1,7 +1,3 @@
-"use client"
-
-import { useActionState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { SubmitButton } from "@/components/ui/submit-button"
 import {
@@ -9,43 +5,18 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldError,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { signIn, type SignInFormState } from "@/lib/actions/auth.action"
+import { signIn } from "@/lib/actions/auth.action"
 import Form from "next/form"
-
-const initialState: SignInFormState = {
-  ok: true,
-  message: "",
-}
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  const [state, formAction] = useActionState(signIn, initialState)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (state.ok && state.redirectTo) {
-      router.push(state.redirectTo)
-    }
-  }, [state.ok, state.redirectTo, router])
-
-  const emailErrors = state.fieldErrors?.email?.map((msg) => ({
-    message: msg,
-  }))
-  const passwordErrors = state.fieldErrors?.password?.map((msg) => ({
-    message: msg,
-  }))
-  const formErrors = state.fieldErrors?.form?.map((msg) => ({
-    message: msg,
-  }))
-
   return (
     <Form
-      action={formAction}
+      action={signIn as any}
       className={cn("flex flex-col gap-6", className)}
       {...props}
     >
@@ -64,11 +35,7 @@ export function LoginForm({
             name="email"
             placeholder="m@example.com"
             required
-            className="bg-background"
-            aria-invalid={!!emailErrors}
-            autoComplete="email"
           />
-          <FieldError errors={emailErrors} />
         </Field>
         <Field>
           <div className="flex items-center">
@@ -80,25 +47,12 @@ export function LoginForm({
               Forgot your password?
             </a>
           </div>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            required
-            className="bg-background"
-            aria-invalid={!!passwordErrors}
-            autoComplete="current-password"
-          />
-          <FieldError errors={passwordErrors} />
+          <Input id="password" name="password" type="password" required />
         </Field>
-        {formErrors && formErrors.length > 0 && (
-          <Field>
-            <FieldError errors={formErrors} />
-          </Field>
-        )}
         <Field>
           <SubmitButton pendingStatus="Logging...">Login</SubmitButton>
         </Field>
+        {/* <FieldSeparator>Or continue with</FieldSeparator> */}
         <Field>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
