@@ -77,7 +77,7 @@ export default async function ProfileSettingsPage() {
           </p>
         </div>
         <Link
-          href="/profile"
+          href={`/alumni/${session?.user?.id}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
           View Profile

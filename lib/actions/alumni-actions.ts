@@ -16,6 +16,8 @@ export type AlumniDetailData = {
   id: string
   name: string
   email: string
+  role: string
+  status: string
   image: string | null
   alumniProfile: {
     id: string
@@ -65,9 +67,15 @@ export type AlumniDetailData = {
 export async function getAlumniDetail(
   id: string
 ): Promise<AlumniDetailData | null> {
+  await requireUser()
+  return getAlumniDetailCached(id)
+}
+
+async function getAlumniDetailCached(
+  id: string
+): Promise<AlumniDetailData | null> {
   "use cache"
   cacheTag(`alumni-${id}`)
-  await requireUser()
   const user = await prisma.user.findUnique({
     where: {
       id,
@@ -77,6 +85,8 @@ export async function getAlumniDetail(
       id: true,
       name: true,
       email: true,
+      role: true,
+      status: true,
       image: true,
       alumniProfile: {
         select: {
@@ -94,13 +104,13 @@ export async function getAlumniDetail(
         },
       },
       educationHistories: {
-        orderBy: { sortOrder: "asc" },
+        orderBy: [{ sortOrder: "asc" }, { startYear: "desc" }],
       },
       skills: {
-        orderBy: { name: "asc" },
+        orderBy: { createdAt: "desc" },
       },
       workExperiences: {
-        orderBy: { sortOrder: "asc" },
+        orderBy: [{ sortOrder: "asc" }, { startDate: "desc" }],
       },
     },
   })
@@ -113,6 +123,8 @@ export async function getAlumniDetail(
     id: user.id,
     name: user.name,
     email: user.email,
+    role: user.role,
+    status: user.status,
     image: user.image,
     alumniProfile: user.alumniProfile,
     educationHistories: user.educationHistories,
