@@ -61,14 +61,6 @@ async function compareSecurityCode(
   plainCode: string,
   hash: string
 ): Promise<boolean> {
-  // const encoder = new TextEncoder()
-  // const data = encoder.encode(plainCode)
-  // const digest = await crypto.subtle.digest("SHA-256", data)
-  // const hashArray = Array.from(new Uint8Array(digest))
-  //   .map((b) => b.toString(16).padStart(2, "0"))
-  //   .join("")
-  // return hashArray === hash
-
   const encoder = new TextEncoder()
   const data = encoder.encode(plainCode + SECRET)
 
