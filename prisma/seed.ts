@@ -1,7 +1,5 @@
 import { prisma } from "./prisma"
 
-
-
 const ticketData = [
   {
     ticketNumber: "CPJSW4",

@@ -52,7 +52,10 @@ export default async function AlumniDetailPage({
             </p>
             <Button
               render={
-                <Link href="/alumni/settings" className="flex items-center gap-2" />
+                <Link
+                  href="/alumni/settings"
+                  className="flex items-center gap-2"
+                />
               }
             >
               Go to Profile Settings

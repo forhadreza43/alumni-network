@@ -112,9 +112,9 @@ export default function ResetPasswordForm() {
     }
   }
 
-if (!token) {
+  if (!token) {
     return (
-      <div className="mx-auto min-h-svh flex items-center justify-center">
+      <div className="mx-auto flex min-h-svh items-center justify-center">
         <div className="mx-auto max-w-md space-y-4 rounded-lg border border-border bg-card p-6">
           <h1 className="text-2xl font-bold text-destructive">Invalid Link</h1>
           <p className="text-muted-foreground">
@@ -134,7 +134,7 @@ if (!token) {
 
   if (success) {
     return (
-      <div className="mx-auto min-h-svh flex items-center justify-center">
+      <div className="mx-auto flex min-h-svh items-center justify-center">
         <div className="mx-auto max-w-md space-y-4 rounded-lg border border-border bg-card p-6">
           <h1 className="text-2xl font-bold text-green-600">
             Password Reset Successfully!
@@ -149,7 +149,7 @@ if (!token) {
   }
 
   return (
-    <div className="mx-auto min-h-svh flex items-center justify-center">
+    <div className="mx-auto flex min-h-svh items-center justify-center">
       <div className="mx-auto max-w-md space-y-6 rounded-lg border border-border bg-card p-6">
         <div>
           <h1 className="text-2xl font-bold">Reset Your Password</h1>

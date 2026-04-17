@@ -40,7 +40,6 @@ export const registerSchema = z
 
 export type RegisterInput = z.infer<typeof registerSchema>
 
-
 export const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, "Current password is required"),

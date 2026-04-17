@@ -65,7 +65,7 @@ const page = () => {
           to the registered email or phone number of the alumni.
         </p>
       </div>
-      <Form action={formAction} className="mx-auto max-w-md mt-10">
+      <Form action={formAction} className="mx-auto mt-10 max-w-md">
         <FieldGroup>
           <div className="flex flex-col items-center space-y-6">
             <Field>

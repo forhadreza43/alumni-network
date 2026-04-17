@@ -1,6 +1,4 @@
-import {
-  getMySettingsBundleAction,
-} from "@/lib/actions/profile-actions"
+import { getMySettingsBundleAction } from "@/lib/actions/profile-actions"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,

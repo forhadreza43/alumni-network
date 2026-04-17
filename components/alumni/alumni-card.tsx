@@ -47,12 +47,9 @@ export async function AlumniCard({ alumni }: AlumniCardProps) {
             </div>
           )}
         </div>
-        
-        
+
         <div className="h-30 w-px border-r border-primary/20" />
-        
-        
-        
+
         <div className="flex-1">
           <div className="space-y-1">
             <h3 className="text-md font-semibold">{alumni.name}</h3>

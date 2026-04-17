@@ -1,4 +1,4 @@
-[
+;[
   {
     ticket: "CPJSW4",
     hash: "1a50a19807ed468308aac377e193811f42d763b17b23ad31b082e2ac51fd6428",

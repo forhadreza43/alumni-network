@@ -4,17 +4,17 @@ import { menu } from "./navbar.constants"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 
-export const NavLink = ({ flag }: { flag?:string}) => {
+export const NavLink = ({ flag }: { flag?: string }) => {
   const pathname = usePathname()
-  if (flag==='small') {
+  if (flag === "small") {
     return menu.map((item) => (
-      <Link key={item.url}
+      <Link
+        key={item.url}
         href={item.url}
         className={cn(
-          "flex w-full items-center gap-2 py-2 font-semibold hover:text-primary duration-300",
+          "flex w-full items-center gap-2 py-2 font-semibold duration-300 hover:text-primary",
           {
-            "text-primary duration-300":
-              item.url === pathname,
+            "text-primary duration-300": item.url === pathname,
           }
         )}
       >

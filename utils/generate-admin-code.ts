@@ -3,8 +3,6 @@ import { createId } from "@paralleldrive/cuid2"
 import { randomBytes, createHash } from "crypto"
 const SECRET = process.env.SECRET_SALT || "default_secret"
 
-
-
 // Generate 8-character code (A-Z, 0-9)
 export function generateCode(length = 8): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -46,7 +44,7 @@ export function generateSecurityCodePayload() {
 // Main execution
 function main() {
   for (let i = 0; i < 5; i++) {
-    generateSecurityCodePayload();
+    generateSecurityCodePayload()
   }
 }
 

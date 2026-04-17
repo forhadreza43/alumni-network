@@ -8,7 +8,7 @@ export default function UserLayout({
     <>
       {/* <Suspense fallback={<div className="h-16 w-full" aria-hidden />}>
       </Suspense> */}
-        <Navbar />
+      <Navbar />
       <div className="mx-auto max-w-7xl px-4">{children}</div>
     </>
   )

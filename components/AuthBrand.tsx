@@ -1,5 +1,5 @@
-import { GalleryVerticalEndIcon } from 'lucide-react'
-import Link from 'next/link'
+import { GalleryVerticalEndIcon } from "lucide-react"
+import Link from "next/link"
 
 const AuthBrand = () => {
   return (

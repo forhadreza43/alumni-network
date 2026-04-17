@@ -41,7 +41,7 @@ interface CurrentUserProfile {
   presentAddress: string | null
   permanentAddress: string | null
   bio: string | null
-  about:string | null
+  about: string | null
   linkedinUrl: string | null
   facebookUrl: string | null
   websiteUrl: string | null
@@ -83,7 +83,6 @@ export function ProfileSettingsSheet({
     }
   }, [state.ok, state.message])
 
-
   const phoneErrors = state.fieldErrors?.phone?.map((msg) => ({ message: msg }))
   const bioErrors = state.fieldErrors?.bio?.map((msg) => ({ message: msg }))
   const aboutErrors = state.fieldErrors?.about?.map((msg) => ({ message: msg }))
@@ -106,7 +105,7 @@ export function ProfileSettingsSheet({
       message: msg,
     })
   )
-  
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger>{children}</SheetTrigger>
@@ -124,7 +123,6 @@ export function ProfileSettingsSheet({
         >
           <div className="flex-1 overflow-y-auto px-6">
             <FieldGroup>
-
               <Field>
                 <div className="flex flex-col gap-2">
                   <FieldLabel htmlFor="phone">Phone Number</FieldLabel>
@@ -229,7 +227,6 @@ export function ProfileSettingsSheet({
                 </div>
               </Field>
 
-          
               <h3 className="mt-4 font-medium">Social Links</h3>
 
               <Field>

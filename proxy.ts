@@ -11,7 +11,7 @@ export default async function proxy(request: NextRequest) {
 
   // If not authenticated, redirect to login
   if (!session) {
-    if (pathname.startsWith("/profile") || pathname.startsWith("/admin")){
+    if (pathname.startsWith("/profile") || pathname.startsWith("/admin")) {
       return NextResponse.redirect(new URL("/unauthorized", request.url))
     }
   }

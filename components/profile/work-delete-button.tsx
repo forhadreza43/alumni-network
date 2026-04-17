@@ -40,7 +40,11 @@ export function WorkDeleteButton({ workId }: WorkDeleteButtonProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button variant="ghost" size="icon-sm" className="shrink-0 bg-destructive/10 text-destructive hover:bg-destructive/20">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="shrink-0 bg-destructive/10 text-destructive hover:bg-destructive/20"
+          >
             <Trash2Icon className="size-4 text-destructive" />
           </Button>
         }

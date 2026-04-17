@@ -27,7 +27,9 @@ export function TicketCredentialsEmail({
       <Tailwind>
         <Body className="bg-white font-sans">
           <Container className="mx-auto max-w-xl px-4 py-12">
-            <Text className="text-2xl font-bold text-black">Alumni Network</Text>
+            <Text className="text-2xl font-bold text-black">
+              Alumni Network
+            </Text>
 
             <Heading className="mt-8 text-2xl font-bold text-gray-900">
               Your Ticket Credentials
